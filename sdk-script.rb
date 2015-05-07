@@ -7,7 +7,7 @@ end
 class SdkScript <Formula
 
   url 'none', :using => NoFileStrategy
-  version '1.6.0'
+  version '1.6.1'
   sha1 ''
 
   def stage(target=nil, &block)
@@ -18,8 +18,8 @@ class SdkScript <Formula
       
       usage()
       {
-          echo ". sdk.sh [-h] [-f] [sdk_version]"
-          echo "  Set up Neotion SDK toolchain"
+          echo ". sdk [-h] [-f] [sdk_version]"
+          echo "  Set up SDK toolchain"
           echo "    -h  Show this help message"
           echo "    -f  Force predefined versions over build default"
       }
@@ -29,7 +29,7 @@ class SdkScript <Formula
       
       if [ "$1" = "-h" ]; then
           usage
-          return
+          return 2>/dev/null || exit
       fi
       
       FORCE=0
@@ -49,7 +49,7 @@ class SdkScript <Formula
       
       if [ -z "${SDK_VERSION}" ]; then
           usage
-          return
+          return 2>/dev/null || exit
       fi
       
       unset NEOSDK_ARMCC_VER
@@ -100,7 +100,7 @@ class SdkScript <Formula
               ;;
           *)
               echo "Unsupported SDK variant: ${SDK_VERSION}" >&2
-              return
+              return 2>/dev/null || exit
               ;;
       esac
       

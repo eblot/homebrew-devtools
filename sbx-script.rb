@@ -7,7 +7,7 @@ end
 class SbxScript <Formula
 
   url 'none', :using => NoFileStrategy
-  version '1.0.0'
+  version '1.0.1'
   sha1 ''
 
   def stage(target=nil, &block)
@@ -221,8 +221,10 @@ class SbxScript <Formula
       fi
       
       echo "New sandbox ${SANDBOX_PATH}/${NEW_SBX}"
-      echo "  Press ⌘V to change dir" 
-      echo "cd ${SANDBOX_PATH}/${NEW_SBX}" | pbcopy
+      if [ "`uname -s`" = "Darwin" ]; then
+          echo "  Press ⌘V to change dir" 
+          echo "cd ${SANDBOX_PATH}/${NEW_SBX}" | pbcopy
+      fi
     EOS
   end
 end
