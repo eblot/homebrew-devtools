@@ -1,8 +1,8 @@
 class Cmake33 < Formula
   desc "Cross-platform make"
   homepage "http://www.cmake.org/"
-  url "http://www.cmake.org/files/v3.3/cmake-3.3.0.tar.gz"
-  sha256 "857c2f755fe0794d038d6fa462a173d05b210ac2c07ff82f0af853acef231a34"
+  url "http://www.cmake.org/files/v3.3/cmake-3.3.1.tar.gz"
+  sha256 "cd65022c6a0707f1c7112f99e9c981677fdd5518f7ddfa0f778d4cee7113e3d6"
   head "http://cmake.org/cmake.git"
 
   keg_only 'Enable installation of several CMake versions'
@@ -46,8 +46,8 @@ class Cmake33 < Formula
   end
 
   resource "babel" do
-    url "https://pypi.python.org/packages/source/B/Babel/Babel-1.3.tar.gz"
-    sha256 "9f02d0357184de1f093c10012b52e7454a1008be6a5c185ab7a3307aceb1d12e"
+    url "https://pypi.python.org/packages/source/B/Babel/Babel-2.0.tar.gz"
+    sha256 "44988df191123065af9857eca68e9151526a931c12659ca29904e4f11de7ec1b"
   end
 
   resource "markupsafe" do
@@ -56,8 +56,8 @@ class Cmake33 < Formula
   end
 
   resource "jinja2" do
-    url "https://pypi.python.org/packages/source/J/Jinja2/Jinja2-2.7.3.tar.gz"
-    sha256 "2e24ac5d004db5714976a04ac0e80c6df6e47e98c354cb2c0d82f8879d4f8fdb"
+    url "https://pypi.python.org/packages/source/J/Jinja2/Jinja2-2.8.tar.gz"
+    sha256 "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
   end
 
   resource "alabaster" do
@@ -114,3 +114,4 @@ class Cmake33 < Formula
     system "#{bin}/cmake", "."
   end
 end
+
