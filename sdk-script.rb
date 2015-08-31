@@ -18,8 +18,8 @@ class SdkScript <Formula
       
       usage()
       {
-          echo ". sdk [-h] [-f] [sdk_version]"
-          echo "  Set up SDK toolchain"
+          echo ". sdk.sh [-h] [-f] [sdk_version]"
+          echo "  Set up Neotion SDK toolchain"
           echo "    -h  Show this help message"
           echo "    -f  Force predefined versions over build default"
       }
@@ -77,110 +77,129 @@ class SdkScript <Formula
               ARCH="arm-eabi"
               NEOSDK_ARMCC_VER="4.6.4"
               NEOSDK_ARMBU_VER="2.21.1"
-              CMAKE_VER="28"
-              PYTHON_VER="27"
-              if [ ${FORCE} -gt 0 ]; then
-                  export NEOSDK_CMAKE_VER="2.8.5"
-                  export NEOSDK_USE_NINJA="1"
-              fi
-              ;;
-          2[r-z]|2[R-Z])
-              ARCH="arm-eabi"
-              NEOSDK_ARMCC_VER="4.9.1"
-              NEOSDK_ARMBU_VER="2.24"
-              CMAKE_VER="30"
-              PYTHON_VER="27"
-              ;;
-          3*)
-              ARCH="arm-elf32-minix"
-              NEOSDK_ARMCL_VER="3.5"
-              NEOSDK_ARMBU_VER="2.25"
-              CMAKE_VER="31"
-              PYTHON_VER="27"
-              ;;
-          *)
-              echo "Unsupported SDK variant: ${SDK_VERSION}" >&2
-              return 2>/dev/null || exit
-              ;;
-      esac
-      
-      OPTPATH="/usr/local/opt"
-      NEWPATH=""
-      
-      PREFIX=`echo "${ARCH}" | sed 's/elf32-//'g`
-      
-      # GCC compiler
-      if [ -n "${NEOSDK_ARMCC_VER}" ]; then
-          ARMCCVER=`echo "${NEOSDK_ARMCC_VER}" | cut -d. -f1-2 | tr -d .`
-          ARMCCPATH="${OPTPATH}/${PREFIX}-gcc${ARMCCVER}/bin"
-          NEWPATH="${ARMCCPATH}"
+          CMAKE_VER="28"
+          PYTHON_VER="27"
           if [ ${FORCE} -gt 0 ]; then
-              export NEOSDK_ARMCC_VER
+              export NEOSDK_CMAKE_VER="2.8.5"
+              export NEOSDK_USE_NINJA="1"
           fi
-      fi
-      
-      # Clang compiler
-      if [ -n "${NEOSDK_ARMCL_VER}" ]; then
-          ARMCLVER=`echo "${NEOSDK_ARMCL_VER}" | cut -d. -f1-2 | tr -d .`
-          ARMCLPATH="${OPTPATH}/${PREFIX}-clang${ARMCLVER}/bin"
-          NEWPATH="${ARMCLPATH}"
-          if [ ${FORCE} -gt 0 ]; then
-              export NEOSDK_ARMCL_VER
-          fi
-      fi
-      
-      # Binutils
-      ARMBUVER=`echo "${NEOSDK_ARMBU_VER}" | cut -d. -f1-2 | tr -d .`
-      ARMBUPATTERN="${OPTPATH}/${PREFIX}-binutils${ARMBUVER}"
-      ARMBUPATH=`ls -1d "${ARMBUPATTERN}"*/bin | tail -1`
+          ;;
+      2[r-w]|2[R-W])
+          ARCH="arm-eabi"
+          NEOSDK_ARMCC_VER="4.9.1"
+          NEOSDK_ARMBU_VER="2.24"
+          CMAKE_VER="30"
+          PYTHON_VER="27"
+          ;;
+      2[x-z]|2[X-Z])
+          ARCH="arm-eabi"
+          NEOSDK_ARMCC_VER="5.2.0"
+          NEOSDK_ARMBU_VER="2.25"
+          CMAKE_VER="33"
+          PYTHON_VER="27"
+          ;;
+      3*)
+          ARCH="arm-elf32-minix"
+          NEOSDK_ARMCL_VER="3.5"
+          NEOSDK_ARMBU_VER="2.25"
+          CMAKE_VER="31"
+          PYTHON_VER="27"
+          ;;
+      *)
+          echo "Unsupported SDK variant: ${SDK_VERSION}" >&2
+          return 2>/dev/null || exit
+          ;;
+  esac
+  
+  OPTPATH="/usr/local/opt"
+  NEWPATH=""
+  
+  PREFIX=`echo "${ARCH}" | sed 's/elf32-//'g`
+  
+  # GCC compiler
+  if [ -n "${NEOSDK_ARMCC_VER}" ]; then
+      ARMCCVER=`echo "${NEOSDK_ARMCC_VER}" | cut -d. -f1-2 | tr -d .`
+      ARMCCPATH="${OPTPATH}/${PREFIX}-gcc${ARMCCVER}/bin"
+      NEWPATH="${ARMCCPATH}"
       if [ ${FORCE} -gt 0 ]; then
-          export NEOSDK_ARMBU_VER
+          export NEOSDK_ARMCC_VER
       fi
-      
-      NEWPATH="${NEWPATH}:${ARMBUPATH}"
-      
-      # Minix host tools - if any
-      case "${ARCH}" in
-          *-minix)
-              NEWPATH="${NEWPATH}:${OPTPATH}/minix-host-tools/bin"        
-              ;;
-      esac
-      
-      # Python
-      NEWPATH="${NEWPATH}:/usr/local/py${PYTHON_VER}/bin"
-      
-      # CMake
-      NEWPATH="${NEWPATH}:${OPTPATH}/cmake${CMAKE_VER}/bin"
-      
-      # Gettext
-      GETTEXTPATH=`ls -1d /usr/local/Cellar/gettext/*/bin | tail -1`
-      NEWPATH="${NEWPATH}:${GETTEXTPATH}"
-      
-      # Fallback to system paths
-      SYSPATH=/usr/bin:/bin:/usr/sbin:/sbin
-      NEWPATH="${NEWPATH}:/usr/local/bin:${SYSPATH}"
-      
-      # Now set the new path
-      export PATH="${NEWPATH}"
-      
-      # Report selected versions
-      PYTHONVERSTR="`python -V 2>&1 | head -1 | cut -d' ' -f2`"
-      CMAKEVERSTR=`cmake --version 2>&1 | head -1 | sed s'/^[^0-9.]*//'`
-      printf "SDK ${SDK_VERSION}: "
-      if [ -n "${NEOSDK_ARMCC_VER}" ]; then 
-          GCCVERSTR="`${ARCH}-gcc --version | head -1 | \\
-                     sed 's/^.* \\([0-9\\.]\\{1,\\}\\)$/\\1/'`"
-          printf "GCC v${GCCVERSTR}, ";
+  fi
+  
+  # Clang compiler
+  if [ -n "${NEOSDK_ARMCL_VER}" ]; then
+      ARMCLVER=`echo "${NEOSDK_ARMCL_VER}" | cut -d. -f1-2 | tr -d .`
+      ARMCLPATH="${OPTPATH}/${PREFIX}-clang${ARMCLVER}/bin"
+      NEWPATH="${ARMCLPATH}"
+      if [ ${FORCE} -gt 0 ]; then
+          export NEOSDK_ARMCL_VER
       fi
-      if [ -n "${NEOSDK_ARMCL_VER}" ]; then 
-          CLANGVERSTR="`${ARCH}-clang --version | head -1 | \\
-                       sed 's/^.* \\([0-9\.]\\{1,\\}\\) .*$/\\1/'`"
-          printf "Clang v${CLANGVERSTR}, "
+  fi
+  
+  # Binutils
+  ARMBUVER=`echo "${NEOSDK_ARMBU_VER}" | cut -d. -f1-2 | tr -d .`
+  ARMBUPATTERN="${OPTPATH}/${PREFIX}-binutils${ARMBUVER}"
+  ARMBUPATH=`ls -1d "${ARMBUPATTERN}"*/bin | tail -1`
+  if [ ${FORCE} -gt 0 ]; then
+      export NEOSDK_ARMBU_VER
+  fi
+  
+  NEWPATH="${NEWPATH}:${ARMBUPATH}"
+  
+  # Minix host tools - if any
+  case "${ARCH}" in
+      *-minix)
+          NEWPATH="${NEWPATH}:${OPTPATH}/minix-host-tools/bin"        
+          ;;
+  esac
+  
+  # Python
+  NEWPATH="${NEWPATH}:/usr/local/py${PYTHON_VER}/bin"
+  
+  # CMake
+  NEWPATH="${NEWPATH}:${OPTPATH}/cmake${CMAKE_VER}/bin"
+  
+  # Gettext
+  GETTEXTPATH=`ls -1d /usr/local/Cellar/gettext/*/bin | tail -1`
+  NEWPATH="${NEWPATH}:${GETTEXTPATH}"
+  
+  # Fallback to system paths
+  SYSPATH=/usr/bin:/bin:/usr/sbin:/sbin
+  NEWPATH="${NEWPATH}:/usr/local/bin:${SYSPATH}"
+  
+  # Now set the new path
+  export PATH="${NEWPATH}"
+  
+  # Report selected versions
+  PYTHONVERSTR="`python -V 2>&1 | head -1 | cut -d' ' -f2`"
+  `which cmake >/dev/null`
+  if [ $? -ne 0 ]; then
+      echo "CMake not found" >&2
+      return 1
+  fi
+  CMAKEVERSTR=`cmake --version 2>&1 | head -1 | sed s'/^[^0-9.]*//'`
+  printf "SDK ${SDK_VERSION}: "
+  if [ -n "${NEOSDK_ARMCC_VER}" ]; then
+      `which ${ARCH}-gcc >/dev/null`
+      if [ $? -ne 0 ]; then
+          echo "${ARCH}-gcc not found" >&2
+          return 1
       fi
-      printf "Binutils v${NEOSDK_ARMBU_VER}, "
-      printf "Python v${PYTHONVERSTR}, "
-      printf "CMake v${CMAKEVERSTR}"
-      printf "\\n"
-    EOS
-  end
-end
+      GCCVERSTR="`${ARCH}-gcc --version | head -1 | \
+                 sed 's/^.* \([0-9\.]\{1,\}\)$/\1/'`"
+      printf "GCC v${GCCVERSTR}, ";
+  fi
+  if [ -n "${NEOSDK_ARMCL_VER}" ]; then 
+      `which ${ARCH}-clang >/dev/null`
+      if [ $? -ne 0 ]; then
+          echo "${ARCH}-clang not found" >&2
+          return 1
+      fi
+      CLANGVERSTR="`${ARCH}-clang --version | head -1 | \
+                   sed 's/^.* \([0-9.]\{1,\}\) .*$/\1/'`"
+      printf "Clang v${CLANGVERSTR}, "
+  fi
+  printf "Binutils v${NEOSDK_ARMBU_VER}, "
+  printf "Python v${PYTHONVERSTR}, "
+  printf "CMake v${CMAKEVERSTR}"
+  printf "\n"
