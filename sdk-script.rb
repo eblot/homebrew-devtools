@@ -7,7 +7,7 @@ end
 class SdkScript <Formula
 
   url 'none', :using => NoFileStrategy
-  version '1.7.0'
+  version '1.7.1'
   sha1 ''
 
   def stage(target=nil, &block)
@@ -102,8 +102,8 @@ class SdkScript <Formula
               ARCH="arm-elf32-minix"
               NEOSDK_ARMCL_VER="3.5"
               NEOSDK_ARMBU_VER="2.25"
-              CMAKE_VER="31"
-              PYTHON_VER="27"
+              CMAKE_VER="33"
+              PYTHON_VER="34"
               ;;
           *)
               echo "Unsupported SDK variant: ${SDK_VERSION}" >&2
