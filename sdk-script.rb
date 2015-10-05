@@ -7,7 +7,7 @@ end
 class SdkScript <Formula
 
   url 'none', :using => NoFileStrategy
-  version '1.7.1'
+  version '1.7.2'
   sha1 ''
 
   def stage(target=nil, &block)
@@ -103,7 +103,7 @@ class SdkScript <Formula
               NEOSDK_ARMCL_VER="3.5"
               NEOSDK_ARMBU_VER="2.25"
               CMAKE_VER="33"
-              PYTHON_VER="34"
+              PYTHON_VER="35"
               ;;
           *)
               echo "Unsupported SDK variant: ${SDK_VERSION}" >&2
@@ -171,6 +171,11 @@ class SdkScript <Formula
       export PATH="${NEWPATH}"
       
       # Report selected versions
+      `python -V >/dev/null 2>&1`
+      if [ $? -ne 0 ]; then
+          echo "Unable to find a valid Python installation" >&2
+          return 1
+      fi
       PYTHONVERSTR="`python -V 2>&1 | head -1 | cut -d' ' -f2`"
       `which cmake >/dev/null`
       if [ $? -ne 0 ]; then
