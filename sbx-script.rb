@@ -7,7 +7,7 @@ end
 class SbxScript <Formula
 
   url 'none', :using => NoFileStrategy
-  version '1.0.1'
+  version '1.0.2'
   sha1 ''
 
   def stage(target=nil, &block)
@@ -181,7 +181,7 @@ class SbxScript <Formula
           # cd to trunk as it always exists
           (/bin/echo -n "Create new sandbox ${NEW_SBX}"; \
            cd ${ORIGIN_ROOT}/trunk && \
-           svn cp ^/${ORIGIN} ^/${SANDBOXES}/${NEW_SBX} \
+           svn cp -q ^/${ORIGIN} ^/${SANDBOXES}/${NEW_SBX} \
               -m "Creates a new sandbox for #${NEW_TICKET}") && \
           (echo "Checking status of working copy" && \
            cd ${SANDBOX_PATH} && \
@@ -204,7 +204,7 @@ class SbxScript <Formula
           
           (/bin/echo -n "Create new sandbox ${NEW_SBX}"; \
            cd ${ORIGIN_ROOT}/trunk && \
-           svn cp ^/${ORIGIN} ^/${SANDBOXES}/${NEW_SBX} \
+           svn cp -q ^/${ORIGIN} ^/${SANDBOXES}/${NEW_SBX} \
               -m "Creates a new sandbox for #${NEW_TICKET}") && \
           (echo "Checking out a new working copy" && \
            cd ${ORIGIN_PATH} && \
