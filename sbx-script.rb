@@ -8,7 +8,6 @@ class SbxScript <Formula
 
   url 'none', :using => NoFileStrategy
   version '1.0.2'
-  sha1 ''
 
   def stage(target=nil, &block)
     bin.mkpath

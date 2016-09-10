@@ -8,7 +8,6 @@ class SdkScript <Formula
 
   url 'none', :using => NoFileStrategy
   version '1.7.2'
-  sha1 ''
 
   def stage(target=nil, &block)
     bin.mkpath
