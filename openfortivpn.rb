@@ -1,16 +1,15 @@
 class Openfortivpn < Formula
   desc "Client for PPP+SSL Fortinet VPN tunnel services."
 
-  homepage "https://github.com/fretn/openfortivpn"
-  url "https://github.com/fretn/openfortivpn.git"
-  version "1.1.3"
+  homepage "https://github.com/adrienverge/openfortivpn"
+  head "https://github.com/adrienverge/openfortivpn.git"
 
   depends_on "automake" => :build
   depends_on "autoconf" => :build
-  depends_on "openssl"
+  depends_on "openssl@1.1"
 
   def install
-    openssl = Formulary.factory 'openssl'
+    openssl = Formulary.factory 'openssl@1.1'
     ENV['CFLAGS'] = "-I#{openssl}/include"
     system "autoreconf 2> /dev/null; true"
     system "automake", "--add-missing"
