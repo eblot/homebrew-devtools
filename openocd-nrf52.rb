@@ -69,5 +69,6 @@ class OpenocdNrf52 < Formula
     system "./bootstrap"
     system "./configure", *args
     system "make", "install"
+    system "mv #{prefix}/bin/openocd #{prefix}/bin/openocd-nrf52"
   end
 end
