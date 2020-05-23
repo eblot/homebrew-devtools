@@ -2,6 +2,8 @@ class OpenocdNrf52 < Formula
   desc "On-chip debugging, in-system programming and boundary-scan testing"
   homepage "https://sourceforge.net/projects/openocd/"
 
+  keg_only "conflict with upstream openocd"
+
   head do
     url "https://github.com/eblot/openocd.git", :branch => "nrf52-wdog"
 
