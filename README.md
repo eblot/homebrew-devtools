@@ -1,6 +1,11 @@
 # homebrew-devtools
 Development script bazaar
 
+# Utilities
+
+ * CramFS tools to build/check CramFS volume: `cramfs.rb`
+ * eCos configuration tool: `ecosconfig.rb`
+
 These scripts are not designed to be portable/reused.
 
 ## sbx
