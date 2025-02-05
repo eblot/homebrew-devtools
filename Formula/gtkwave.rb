@@ -1,10 +1,10 @@
 class Gtkwave < Formula
   desc "GTKWave is a fully featured GTK+ based wave viewer"
   homepage "https://gtkwave.sourceforge.net"
-  url "https://sourceforge.net/projects/gtkwave/files/gtkwave-gtk3-3.3.115/gtkwave-gtk3-3.3.115.tar.gz/download"
-  sha256 "adb7a7c02b18ca0835a064b672f6cdc51f875c454b0189a743f2ce8b91e64aa5"
+  url "https://gtkwave.sourceforge.net/gtkwave-gtk3-3.3.121.tar.gz"
+  sha256 "54aa45788d6d52afb659c3aef335aafde0ef2c8990a7770f8eaa64e57f227346"
 
-  depends_on "tcl-tk"
+  depends_on "tcl-tk@8"
   depends_on "gtk+3"
   depends_on "gtk-mac-integration"
   depends_on "judy"
@@ -24,8 +24,8 @@ class Gtkwave < Formula
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}",
-                          "--with-tcl=#{Formula["tcl-tk"].opt_prefix}/lib",
-                          "--with-tk=#{Formula["tcl-tk"].opt_prefix}/lib",
+                          "--with-tcl=#{Formula["tcl-tk@8"].opt_prefix}/lib",
+                          "--with-tk=#{Formula["tcl-tk@8"].opt_prefix}/lib",
                           "--enable-gtk3",
                           "--enable-judy"
     system "make", "install"
